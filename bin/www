@@ -88,5 +88,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-  console.log(chalk.yellowBright(`Server running on http://localhost:${port}/`));
+  console.log(chalk.blueBright(`Server running on http://localhost:${port}/`));
 }

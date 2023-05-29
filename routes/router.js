@@ -7,6 +7,6 @@ const handleError = require('../utils/handleError');
 router.use('/cards', cardRestController);
 router.use('/users', userRestController);
 
-router.use((req, res) => handleError(res, 'page not found', 404));
+router.use((req, res) => handleError(res, 'api not found', 404));
 
 module.exports = router;
