@@ -3,13 +3,13 @@ const Image = require("./Image");
 const Address = require("./Address");
 const {
     URL,
-    DEFAULT_STRING_SCHEMA_require,
-} = require("./helpers/mongooseValidation");
+    DEFAULT_STRING_SCHEMA_REQUIRED,
+} = require("../mongooseValidation");
 
 const cardSchema = new mongoose.Schema({
-    title: DEFAULT_STRING_SCHEMA_require,
-    subTitle: DEFAULT_STRING_SCHEMA_require,
-    description: { ...DEFAULT_STRING_SCHEMA_require, maxLength: 1024 },
+    title: DEFAULT_STRING_SCHEMA_REQUIRED,
+    subTitle: DEFAULT_STRING_SCHEMA_REQUIRED,
+    description: { ...DEFAULT_STRING_SCHEMA_REQUIRED, maxLength: 1024 },
     phone: {
         type: String,
         require: true,

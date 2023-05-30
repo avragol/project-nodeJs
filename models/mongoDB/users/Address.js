@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { DEFAULT_STRING_SCHEMA, DEFAULT_STRING_SCHEMA_REQUIRED } = require('./helpers/mongooseValidation');
+const { DEFAULT_STRING_SCHEMA, DEFAULT_STRING_SCHEMA_REQUIRED } = require('../mongooseValidation');
 
 const Address = new mongoose.Schema({
     state: DEFAULT_STRING_SCHEMA,

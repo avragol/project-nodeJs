@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const { DEFAULT_STRING_SCHEMA, DEFAULT_STRING_SCHEMA_require } = require('./helpers/mongooseValidation');
+const { DEFAULT_STRING_SCHEMA, DEFAULT_STRING_SCHEMA_REQUIRED } = require('../mongooseValidation');
 
 const Address = new mongoose.Schema({
     state: DEFAULT_STRING_SCHEMA,
-    country: DEFAULT_STRING_SCHEMA_require,
-    city: DEFAULT_STRING_SCHEMA_require,
-    street: DEFAULT_STRING_SCHEMA_require,
+    country: DEFAULT_STRING_SCHEMA_REQUIRED,
+    city: DEFAULT_STRING_SCHEMA_REQUIRED,
+    street: DEFAULT_STRING_SCHEMA_REQUIRED,
     houseNumber: {
         type: Number,
         require: true,
