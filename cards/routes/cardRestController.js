@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const handleError = require('../../utils/handleError');
 const cardAccessDataService = require('../models/cardAccessData');
+const normalizeCard = require('../helpers/normalizeCardService');
 
 router.get('/', (req, res) => {
     console.log('ping from cards');
@@ -14,7 +15,8 @@ router.get('/:id', (req, res) => {
 });
 router.post('/', async (req, res) => {
     try {
-        let dataFromMongoose = await cardAccessDataService.createCard(req.body);
+        let normalCard = await normalizeCard(req.body, "646ca1f41e5021b5829730b6");
+        let dataFromMongoose = await cardAccessDataService.createCard(normalCard);
         console.log("data from mongoose", dataFromMongoose);
         res.json({ msg: 'ping from cards post(well done!)' });
     } catch (err) {

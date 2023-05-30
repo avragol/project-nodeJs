@@ -6,9 +6,9 @@ const normalizeCard = async (card, userId) => {
     }
     card.image = {
         url:
-            card.image.url ||
+            card.image.url || card.url ||
             "https://cdn.pixabay.com/photo/2020/04/07/17/01/chicks-5014152_960_720.jpg",
-        alt: card.image.alt || "yellow fluffy chickens",
+        alt: card.image.alt || card.alt || "yellow fluffy chickens",
     };
     delete card.alt;
     delete card.url;

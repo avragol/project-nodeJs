@@ -38,9 +38,9 @@ const cardSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    /*  user_id: {
-         type: mongoose.Schema.Types.ObjectId,
-     }, */
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+    },
 });
 
 const Card = mongoose.model("cards", cardSchema);
