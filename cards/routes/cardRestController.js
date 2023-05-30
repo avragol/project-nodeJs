@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const handleError = require('../../utils/handleError');
+const cardAccessDataService = require('../models/cardAccessData');
 
 router.get('/', (req, res) => {
     console.log('ping from cards');
@@ -10,9 +12,14 @@ router.get('/:id', (req, res) => {
     console.log(`ping from cards with params - ${id}`);
     res.json({ msg: `ping from cards with params - ${id}` })
 });
-router.post('/', (req, res) => {
-    console.log('ping from cards post');
-    res.json({ msg: 'ping from cards post' });
+router.post('/', async (req, res) => {
+    try {
+        let dataFromMongoose = await cardAccessDataService.createCard(req.body);
+        console.log("data from mongoose", dataFromMongoose);
+        res.json({ msg: 'ping from cards post(well done!)' });
+    } catch (err) {
+        handleError(res, err, 400);
+    }
 });
 router.put('/:id', (req, res) => {
     const id = req.params.id;

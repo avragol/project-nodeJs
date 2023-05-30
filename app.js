@@ -5,7 +5,6 @@ const logger = require('./utils/loggers/loggerService');
 const cors = require('cors');
 const handleError = require('./utils/handleError');
 const router = require('./routes/router');
-const connectToDB = require('./models/connectToDB');
 const app = express();
 
 /* SETTINGS */
@@ -18,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-connectToDB();
+
 
 /* ROUTER */
 app.use("/api", router);
