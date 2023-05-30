@@ -33,20 +33,51 @@ router.post('/', async (req, res) => {
         handleError(res, err.message, 400);
     }
 });
-router.put('/:id', (req, res) => {
-    const id = req.params.id;
-    console.log(`ping from cards put with params - ${id}`);
-    res.json({ msg: `ping from cards put with params - ${id}` })
+router.put('/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        let normalCard = await normalizeCard(req.body, "6460db599d17caea8cecb4d0");
+        await cardValidationService.cardIdValidation(id);
+        await cardValidationService.createCardValidation(normalCard);
+        const cardFromDB = await cardAccessDataService.updateCard(
+            id,
+            normalCard
+        );
+        res.json(cardFromDB);
+    } catch (err) {
+        handleError(res, err.message, 400);
+    }
 });
-router.patch('/:id', (req, res) => {
-    const id = req.params.id;
-    console.log(`ping from cards patch with params - ${id}`);
-    res.json({ msg: `ping from cards patch with params - ${id}` })
+router.patch('/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const token = { _id: "6460db599d17caea8cecb4d0" }//await verifyToken(req.headers["x-auth-token"]);
+        await cardValidationService.cardIdValidation(id);
+        const { likes } = await cardAccessDataService.likeCard(token._id, req.params.id);
+        if (likes) {
+            if (likes.includes(token._id)) {
+                res.json({ msg: "like Added!" });
+            } else {
+                res.json({ msg: "like removed!" });
+            }
+        } else {
+            handleError(res, "could not find the card", 404);
+        }
+    } catch (err) {
+        console.log(err);
+        handleError(res, err.message, 400);
+    }
 });
-router.delete('/:id', (req, res) => {
-    const id = req.params.id;
-    console.log(`ping from cards delete with params - ${id}`);
-    res.json({ msg: `ping from cards delete with params - ${id}` })
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        await cardValidationService.cardIdValidation(id);
+        const cardFromDb = await cardAccessDataService.deleteCard(id);
+        res.json({ msg: `card - ${cardFromDb.title} deleted` })
+    } catch (err) {
+        handleError(res, err.message, 400);
+    }
 });
 
 module.exports = router;

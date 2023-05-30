@@ -50,6 +50,14 @@ const deleteCard = (id) => {
     }
 };
 
+const likeCard = (userId, cardId) => {
+    switch (dbOption) {
+        case "mongo":
+        default:
+            return cardsServiceMongo.likeCard(userId, cardId);
+    }
+};
+
 module.exports = {
     createCard,
     getAllCards,
@@ -57,4 +65,5 @@ module.exports = {
     getCardByUserId,
     updateCard,
     deleteCard,
+    likeCard
 };
