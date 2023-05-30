@@ -3,24 +3,34 @@ const router = express.Router();
 const handleError = require('../../utils/handleError');
 const cardAccessDataService = require('../models/cardAccessData');
 const normalizeCard = require('../helpers/normalizeCardService');
+const cardValidationService = require('../../validation/cardsValidationService');
 
-router.get('/', (req, res) => {
-    console.log('ping from cards');
-    res.json({ msg: 'ping from cards' });
+router.get('/', async (req, res) => {
+    try {
+        const dataFromMongoose = await cardAccessDataService.getAllCards();
+        res.json(dataFromMongoose);
+    } catch (err) {
+        handleError(res, err.message, 400);
+    }
 });
-router.get('/:id', (req, res) => {
-    const id = req.params.id;
-    console.log(`ping from cards with params - ${id}`);
-    res.json({ msg: `ping from cards with params - ${id}` })
+router.get('/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        await cardValidationService.cardIdValidation(id);
+        let card = await cardAccessDataService.getCardById(id);
+        res.json(card);
+    } catch (err) {
+        handleError(res, err.message, 400);
+    }
 });
 router.post('/', async (req, res) => {
     try {
         let normalCard = await normalizeCard(req.body, "646ca1f41e5021b5829730b6");
+        await cardValidationService.createCardValidation(normalCard);
         let dataFromMongoose = await cardAccessDataService.createCard(normalCard);
-        console.log("data from mongoose", dataFromMongoose);
-        res.json({ msg: 'ping from cards post(well done!)' });
+        res.json(dataFromMongoose);
     } catch (err) {
-        handleError(res, err, 400);
+        handleError(res, err.message, 400);
     }
 });
 router.put('/:id', (req, res) => {
