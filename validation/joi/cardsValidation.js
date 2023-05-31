@@ -26,7 +26,7 @@ createCardSchema = Joi.object({
     user_id: Joi.string().hex().length(24),
 });
 
-const idSchema = Joi.string().regex(/^[0-9a-fA-F]{24}$/).required();
+const idSchema = Joi.string().length(24).hex().required();
 
 const validateCardSchema = (userInput) => {
     return createCardSchema.validateAsync(userInput);
