@@ -34,27 +34,27 @@ const getAllUsers = () => {
     }
 };
 
-const updateUser = () => {
+const updateUser = (id, userToUpdate) => {
     switch (dbOption) {
         case "mongo":
         default:
-            return usersServiceMongo.updateUser();
+            return usersServiceMongo.updateUser(id, userToUpdate);
     }
 };
 
-const updateBizUser = () => {
+const updateBizUser = (id) => {
     switch (dbOption) {
         case "mongo":
         default:
-            return usersServiceMongo.updateBizUser();
+            return usersServiceMongo.updateBizUser(id);
     }
 };
 
-const deleteUser = () => {
+const deleteUser = (id) => {
     switch (dbOption) {
         case "mongo":
         default:
-            return usersServiceMongo.deleteUser();
+            return usersServiceMongo.deleteUser(id);
     }
 };
 

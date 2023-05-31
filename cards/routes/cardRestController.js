@@ -7,8 +7,8 @@ const cardValidationService = require('../../validation/cardsValidationService')
 
 router.get('/', async (req, res) => {
     try {
-        const dataFromMongoose = await cardAccessDataService.getAllCards();
-        res.json(dataFromMongoose);
+        const dataFromDB = await cardAccessDataService.getAllCards();
+        res.json(dataFromDB);
     } catch (err) {
         handleError(res, err.message, 400);
     }

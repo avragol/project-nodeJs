@@ -14,17 +14,16 @@ const getAllUsers = () => {
 }
 
 const getUserById = id => {
-    return User.findOne({ _id: id });
+    return User.findById(id);
 }
 
 const updateUser = (id, userToUpdate) => {
     return User.findByIdAndUpdate(id, userToUpdate, { new: true });
 }
 
-const updateBizUser = (id) => {
-    const user = User.findById(id)
-    user.isBusiness = !user.isBusiness;
-    return user.save()
+const updateBizUser = async (id) => {
+    let user = await User.findById(id).exec();
+    return User.findByIdAndUpdate(id, { isBiz: !user.isBiz }, { new: true });
 }
 
 const deleteUser = (id) => {
