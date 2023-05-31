@@ -25,15 +25,13 @@ const deleteCard = (id) => {
     return Card.findByIdAndDelete(id);
 };
 
-const likeCard = async (userId, cardId) => {
-    let card = await Card.findById(cardId).exec();
-    if (card.likes.includes(userId)) {
-        card.likes = card.likes.filter((id) => id !== userId);
-    } else {
-        card.likes = [...card.likes, userId];
-    }
-    return card.save();
-}
+const likeCard = (userId, cardId) => {
+    return Card.findByIdAndUpdate(cardId, { $push: { likes: userId } }, { new: true });
+};
+
+const unLikeCard = (userId, cardId) => {
+    return Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true });
+};
 
 module.exports = {
     createCard,
@@ -43,4 +41,5 @@ module.exports = {
     updateCard,
     deleteCard,
     likeCard,
+    unLikeCard,
 }

@@ -53,12 +53,14 @@ router.patch('/:id', async (req, res) => {
         const id = req.params.id;
         const token = { _id: "6460db599d17caea8cecb4d0" }//await verifyToken(req.headers["x-auth-token"]);
         await cardValidationService.cardIdValidation(id);
-        const { likes } = await cardAccessDataService.likeCard(token._id, req.params.id);
+        const { likes } = await cardAccessDataService.getCardById(id);
         if (likes) {
             if (likes.includes(token._id)) {
-                res.json({ msg: "like Added!" });
-            } else {
+                await cardAccessDataService.unLikeCard(token._id, id)
                 res.json({ msg: "like removed!" });
+            } else {
+                await cardAccessDataService.likeCard(token._id, id)
+                res.json({ msg: "like Added!" });
             }
         } else {
             handleError(res, "could not find the card", 404);
