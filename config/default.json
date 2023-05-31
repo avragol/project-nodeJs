@@ -1,6 +1,7 @@
 {
     "validatorOption": "joi",
-    "dbOption": "mongoDB",
+    "dbOption": "mongo",
     "hashOption": "bycript",
-    "tokenOption": "jwt"
+    "tokenOption": "jwt",
+    "logger": "morgan"
 }

@@ -1,5 +1,7 @@
 const filterCardToClientMongo = require('../../models/mongoDB/cards/helpers/filterCardToClientMongo.js')
-const dbOption = "mongo"
+const config = require('config');
+
+const dbOption = config.get("dbOption")
 
 const filterCardToClientService = (card) => {
     switch (dbOption) {

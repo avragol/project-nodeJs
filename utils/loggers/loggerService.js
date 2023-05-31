@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 const morganLogger = require('./morgan');
+const config = require('config');
 
-const loggerOption = "morgan";
+const loggerOption = config.get("logger");
 
 const loggerService = () => {
     switch (loggerOption) {

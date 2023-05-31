@@ -1,5 +1,7 @@
 const normalizationUserMongo = require("../../models/mongoDB/users/helpers/normalizeUser");
-const dbOption = "mongo";
+const config = require('config');
+
+const dbOption = config.get("dbOption");
 
 const normalizationUserService = (userData) => {
     switch (dbOption) {

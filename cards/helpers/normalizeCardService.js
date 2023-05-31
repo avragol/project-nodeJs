@@ -1,5 +1,7 @@
 const normalizationCardMongo = require("../../models/mongoDB/cards/helpers/normalizeCard");
-const dbOption = "mongo";
+const config = require('config');
+
+const dbOption = config.get("dbOption");
 
 const normalizeCardService = (card, userId) => {
     switch (dbOption) {

@@ -1,5 +1,7 @@
 const connectToMongo = require("./mongoDB/connectToMongo.js");
-const dbOption = "mongo";
+const config = require('config');
+
+const dbOption = config.get("dbOption");
 
 const connectToDB = () => {
     switch (dbOption) {

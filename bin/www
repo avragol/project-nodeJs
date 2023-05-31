@@ -9,7 +9,9 @@ var debug = require('debug')('myproject:server');
 var http = require('http');
 const chalk = require("chalk");
 const connectToDB = require('../models/connectToDB');
-const config = require('config')
+const config = require('config');
+
+console.log(chalk.bgWhiteBright.black(`running on ${config.get("file")}`));
 
 connectToDB().then(() => {
   console.log(chalk.cyan.bold(`connected to ${config.get("dbOption")}!`));

@@ -1,5 +1,7 @@
 const usersServiceMongo = require("../../models/mongoDB/users/usersService");
-const dbOption = "mongo";
+const config = require('config');
+
+const dbOption = config.get("dbOption");
 
 const registerUser = (userData) => {
     switch (dbOption) {

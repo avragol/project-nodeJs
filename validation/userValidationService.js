@@ -1,7 +1,8 @@
 const joiRegisterValidation = require('./joi/registerValidation');
 const joiloginValidation = require('./joi/loginValidation');
+const config = require('config');
 
-const validatorOption = 'Joi';
+const validatorOption = config.get("validatorOption");
 
 const registerUserValidation = (userInput) => {
     if (validatorOption === 'Joi') {
