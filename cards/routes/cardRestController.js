@@ -4,7 +4,6 @@ const handleError = require('../../utils/handleError');
 const cardAccessDataService = require('../models/cardAccessData');
 const normalizeCard = require('../helpers/normalizeCardService');
 const cardValidationService = require('../../validation/cardsValidationService');
-const filterCardToClientService = require('../helpers/filterCardToClientService');
 
 router.get('/', async (req, res) => {
     try {
@@ -28,8 +27,8 @@ router.post('/', async (req, res) => {
     try {
         let normalCard = await normalizeCard(req.body, "646ca1f41e5021b5829730b6");
         await cardValidationService.createCardValidation(normalCard);
-        let dataFromMongoose = await cardAccessDataService.createCard(normalCard);
-        res.json(await filterCardToClientService(dataFromMongoose));
+        let dataFromDBs = await cardAccessDataService.createCard(normalCard);
+        res.json(dataFromDB);
     } catch (err) {
         handleError(res, err.message, 400);
     }
