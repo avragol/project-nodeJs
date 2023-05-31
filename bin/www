@@ -9,9 +9,10 @@ var debug = require('debug')('myproject:server');
 var http = require('http');
 const chalk = require("chalk");
 const connectToDB = require('../models/connectToDB');
+const config = require('config')
 
 connectToDB().then(() => {
-  console.log(chalk.cyan.bold(`connected to ${/* add configuration */ ""}mongo!`));
+  console.log(chalk.cyan.bold(`connected to ${config.get("dbOption")}!`));
 }).catch(err => {
   console.log(chalk.redBright.bold(err));
   process.exit(1);

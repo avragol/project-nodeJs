@@ -1,0 +1,7 @@
+{
+    "dbConfig": {
+        "url": "mongodb+srv://admin:Aa123456!@cluster0.ky2i4uf.mongodb.net/node_project"
+    },
+    "jwt": "nsjcde893kwwq-owp{{",
+    "file": "production"
+}
