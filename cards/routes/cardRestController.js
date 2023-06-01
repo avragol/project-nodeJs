@@ -13,6 +13,16 @@ router.get('/', async (req, res) => {
         handleError(res, err.message, 400);
     }
 });
+
+router.get('/my-cards', async (req, res) => {
+    try {
+        const dataFromDB = await cardAccessDataService.getCardByUserId("646ca1f41e5021b5829730b6");
+        res.json(dataFromDB);
+    } catch (err) {
+        handleError(res, err.message, 400);
+    }
+});
+
 router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;

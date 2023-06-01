@@ -14,7 +14,7 @@ const getCardById = id => {
 };
 
 const getCardByUserId = userId => {
-    return Card.findOne({ _userId: userId }, { _userId: 1, _id: 0 });
+    return Card.find({ user_id: userId });
 };
 
 const updateCard = (id, cardToUpdate) => {

@@ -21,10 +21,9 @@ const updateUser = (id, userToUpdate) => {
     return User.findByIdAndUpdate(id, userToUpdate, { new: true });
 }
 
-const updateBizUser = async (id) => {
-    let user = await User.findById(id).exec();
-    return User.findByIdAndUpdate(id, { isBiz: !user.isBiz }, { new: true });
-}
+const updateBizUser = (id) => {
+    return User.findByIdAndUpdate(id, [{ "$set": { "isBiz": { "$eq": [false, "$isBiz"] } } }], { new: true });
+};
 
 const deleteUser = (id) => {
     return User.findByIdAndDelete(id);
