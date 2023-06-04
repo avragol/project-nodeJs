@@ -5,6 +5,7 @@ const cardAccessDataService = require('../models/cardAccessData');
 const normalizeCard = require('../helpers/normalizeCardService');
 const cardValidationService = require('../../validation/cardsValidationService');
 const authMiddleware = require('../../middlewares/authMiddleware');
+const permissionsMiddleware = require('../../middlewares/permissionsMiddleware');
 
 router.get('/', async (req, res) => {
     try {
@@ -15,14 +16,15 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/my-cards', authMiddleware, async (req, res) => {
-    try {
-        const dataFromDB = await cardAccessDataService.getCardByUserId(req.userData._id);
-        res.json(dataFromDB);
-    } catch (err) {
-        handleError(res, err.message, 400);
-    }
-});
+router.get('/my-cards', authMiddleware,
+    async (req, res) => {
+        try {
+            const dataFromDB = await cardAccessDataService.getCardByUserId(req.userData._id);
+            res.json(dataFromDB);
+        } catch (err) {
+            handleError(res, err.message, 400);
+        }
+    });
 
 router.get('/:id', async (req, res) => {
     try {
@@ -34,31 +36,34 @@ router.get('/:id', async (req, res) => {
         handleError(res, err.message, 400);
     }
 });
-router.post('/', authMiddleware, async (req, res) => {
-    try {
-        let normalCard = await normalizeCard(req.body, "646ca1f41e5021b5829730b6");
-        await cardValidationService.createCardValidation(normalCard);
-        let dataFromDBs = await cardAccessDataService.createCard(normalCard);
-        res.json(dataFromDB);
-    } catch (err) {
-        handleError(res, err.message, 400);
-    }
-});
-router.put('/:id', authMiddleware, async (req, res) => {
-    try {
-        const id = req.params.id;
-        let normalCard = await normalizeCard(req.body, "6460db599d17caea8cecb4d0");
-        await cardValidationService.cardIdValidation(id);
-        await cardValidationService.createCardValidation(normalCard);
-        const cardFromDB = await cardAccessDataService.updateCard(
-            id,
-            normalCard
-        );
-        res.json(cardFromDB);
-    } catch (err) {
-        handleError(res, err.message, 400);
-    }
-});
+router.post('/', authMiddleware, permissionsMiddleware(false, true, false),
+    async (req, res) => {
+        try {
+            let normalCard = await normalizeCard(req.body, req.userData._id);
+            await cardValidationService.createCardValidation(normalCard);
+            let dataFromDB = await cardAccessDataService.createCard(normalCard);
+            res.json(dataFromDB);
+        } catch (err) {
+            handleError(res, err.message, 400);
+        }
+    });
+router.put('/:id', authMiddleware, permissionsMiddleware(false, false, true),
+    async (req, res) => {
+        try {
+            const id = req.params.id;
+            let normalCard = await normalizeCard(req.body, req.userData._id);
+            await cardValidationService.cardIdValidation(id);
+            await cardValidationService.createCardValidation(normalCard);
+            const cardFromDB = await cardAccessDataService.updateCard(
+                id,
+                normalCard
+            );
+            res.json(cardFromDB);
+        } catch (err) {
+            handleError(res, err.message, 400);
+        }
+    });
+
 router.patch('/:id', authMiddleware, async (req, res) => {
     try {
         const cardId = req.params.id;
@@ -82,15 +87,16 @@ router.patch('/:id', authMiddleware, async (req, res) => {
     }
 });
 
-router.delete('/:id', authMiddleware, async (req, res) => {
-    try {
-        const id = req.params.id;
-        await cardValidationService.cardIdValidation(id);
-        const cardFromDb = await cardAccessDataService.deleteCard(id);
-        res.json({ msg: `card - ${cardFromDb.title} deleted` })
-    } catch (err) {
-        handleError(res, err.message, 400);
-    }
-});
+router.delete('/:id', authMiddleware, permissionsMiddleware(true, false, true),
+    async (req, res) => {
+        try {
+            const id = req.params.id;
+            await cardValidationService.cardIdValidation(id);
+            const cardFromDb = await cardAccessDataService.deleteCard(id);
+            res.json({ msg: `card - ${cardFromDb.title} deleted` })
+        } catch (err) {
+            handleError(res, err.message, 400);
+        }
+    });
 
 module.exports = router;

@@ -7,6 +7,7 @@ const userValidationService = require('../../validation/userValidationService');
 const hashService = require('../../utils/hash/hashService');
 const authMiddleware = require('../../middlewares/authMiddleware');
 const tokenService = require('../../utils/token/tokenService');
+const permissionsMiddleware = require('../../middlewares/permissionsMiddleware');
 
 router.post('/', async (req, res) => {
     try {
@@ -40,28 +41,30 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/', authMiddleware, async (req, res) => {
-    try {
-        const dataFromDB = await userAccessData.getAllUsers();
-        res.json(dataFromDB);
-    } catch (err) {
-        handleError(res, err.message, 400);
-    }
-});
-
-router.get('/:id', authMiddleware, async (req, res) => {
-    try {
-        await userValidationService.userIdValidation(req.params.id);
-        const dataFromDB = await userAccessData.getUserById(req.params.id);
-        if (dataFromDB) {
+router.get('/', authMiddleware, permissionsMiddleware(true, false, false),
+    async (req, res) => {
+        try {
+            const dataFromDB = await userAccessData.getAllUsers();
             res.json(dataFromDB);
-        } else {
-            handleError(res, "Undefind user", 404);
+        } catch (err) {
+            handleError(res, err.message, 400);
         }
-    } catch (err) {
-        handleError(res, err.message, 400);
-    }
-});
+    });
+
+router.get('/:id', authMiddleware, permissionsMiddleware(true, false, true),
+    async (req, res) => {
+        try {
+            await userValidationService.userIdValidation(req.params.id);
+            const dataFromDB = await userAccessData.getUserById(req.params.id);
+            if (dataFromDB) {
+                res.json(dataFromDB);
+            } else {
+                handleError(res, "Undefind user", 404);
+            }
+        } catch (err) {
+            handleError(res, err.message, 400);
+        }
+    });
 
 router.put('/:id', authMiddleware, async (req, res) => {
     try {
