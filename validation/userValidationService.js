@@ -1,6 +1,7 @@
 const joiRegisterValidation = require('./joi/registerValidation');
 const joiloginValidation = require('./joi/loginValidation');
 const joiuserIdValidation = require('./joi/userIdValidation');
+const joiUpdateUserValidation = require('./joi/updateUserValidation');
 const config = require('config');
 
 const validatorOption = config.get("validatorOption");
@@ -32,8 +33,18 @@ const userIdValidation = (userInput) => {
     throw new Error('validator undefind');
 };
 
+const updateUserValidation = (userInput) => {
+    switch (validatorOption) {
+        case "joi":
+        default:
+            return joiUpdateUserValidation.validateUpdateUserSchema(userInput);
+    }
+    throw new Error('validator undefind');
+};
+
 module.exports = {
     registerUserValidation,
     loginUserValidation,
-    userIdValidation
+    userIdValidation,
+    updateUserValidation
 }

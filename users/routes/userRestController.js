@@ -66,7 +66,7 @@ router.put('/:id', async (req, res) => {
     try {
         let normalUser = await normalizeUser(req.body);
         await userValidationService.userIdValidation(req.params.id);
-        await userValidationService.registerUserValidation(normalUser);
+        await userValidationService.updateUserValidation(normalUser);
         const dataFromDB = await userAccessData.updateUser(
             req.params.id,
             normalUser

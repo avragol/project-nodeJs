@@ -22,7 +22,7 @@ const updateUser = (id, userToUpdate) => {
 }
 
 const updateBizUser = (id) => {
-    return User.findByIdAndUpdate(id, [{ "$set": { "isBiz": { "$eq": [false, "$isBiz"] } } }], { new: true });
+    return User.findByIdAndUpdate(id, [{ "$set": { "isBiz": { "$not": "$isBiz" } } }], { new: true });
 };
 
 const deleteUser = (id) => {
