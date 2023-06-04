@@ -5,6 +5,7 @@ const userAccessData = require('../models/userAccessData');
 const normalizeUser = require('../helpers/normalizeUserService');
 const userValidationService = require('../../validation/userValidationService');
 const hashService = require('../../utils/hash/hashService');
+const authMiddleware = require('../../middlewares/authMiddleware');
 const tokenService = require('../../utils/token/tokenService');
 
 router.post('/', async (req, res) => {
@@ -39,7 +40,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     try {
         const dataFromDB = await userAccessData.getAllUsers();
         res.json(dataFromDB);
@@ -48,7 +49,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authMiddleware, async (req, res) => {
     try {
         await userValidationService.userIdValidation(req.params.id);
         const dataFromDB = await userAccessData.getUserById(req.params.id);
@@ -62,7 +63,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
     try {
         let normalUser = await normalizeUser(req.body);
         await userValidationService.userIdValidation(req.params.id);
@@ -81,7 +82,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', authMiddleware, async (req, res) => {
     try {
         const id = req.params.id;
         await userValidationService.userIdValidation(id);
@@ -92,7 +93,7 @@ router.patch('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
     try {
         await userValidationService.userIdValidation(req.params.id);
         const dataFromDb = await userAccessData.deleteUser(req.params.id);

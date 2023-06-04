@@ -4,6 +4,7 @@ const handleError = require('../../utils/handleError');
 const cardAccessDataService = require('../models/cardAccessData');
 const normalizeCard = require('../helpers/normalizeCardService');
 const cardValidationService = require('../../validation/cardsValidationService');
+const authMiddleware = require('../../middlewares/authMiddleware');
 
 router.get('/', async (req, res) => {
     try {
@@ -14,9 +15,9 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/my-cards', async (req, res) => {
+router.get('/my-cards', authMiddleware, async (req, res) => {
     try {
-        const dataFromDB = await cardAccessDataService.getCardByUserId("646ca1f41e5021b5829730b6");
+        const dataFromDB = await cardAccessDataService.getCardByUserId(req.userData._id);
         res.json(dataFromDB);
     } catch (err) {
         handleError(res, err.message, 400);
@@ -33,7 +34,7 @@ router.get('/:id', async (req, res) => {
         handleError(res, err.message, 400);
     }
 });
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
     try {
         let normalCard = await normalizeCard(req.body, "646ca1f41e5021b5829730b6");
         await cardValidationService.createCardValidation(normalCard);
@@ -43,7 +44,7 @@ router.post('/', async (req, res) => {
         handleError(res, err.message, 400);
     }
 });
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
     try {
         const id = req.params.id;
         let normalCard = await normalizeCard(req.body, "6460db599d17caea8cecb4d0");
@@ -58,18 +59,18 @@ router.put('/:id', async (req, res) => {
         handleError(res, err.message, 400);
     }
 });
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', authMiddleware, async (req, res) => {
     try {
-        const id = req.params.id;
-        const token = { _id: "6460db599d17caea8cecb4d0" }//await verifyToken(req.headers["x-auth-token"]);
-        await cardValidationService.cardIdValidation(id);
-        const { likes } = await cardAccessDataService.getCardById(id);
+        const cardId = req.params.id;
+        const userId = req.userData._id;
+        await cardValidationService.cardIdValidation(cardId);
+        const { likes } = await cardAccessDataService.getCardById(cardId);
         if (likes) {
-            if (likes.includes(token._id)) {
-                await cardAccessDataService.unLikeCard(token._id, id)
+            if (likes.includes(userId)) {
+                await cardAccessDataService.unLikeCard(userId, cardId)
                 res.json({ msg: "like removed!" });
             } else {
-                await cardAccessDataService.likeCard(token._id, id)
+                await cardAccessDataService.likeCard(userId, cardId)
                 res.json({ msg: "like Added!" });
             }
         } else {
@@ -81,7 +82,7 @@ router.patch('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
     try {
         const id = req.params.id;
         await cardValidationService.cardIdValidation(id);
