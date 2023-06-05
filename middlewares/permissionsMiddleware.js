@@ -26,7 +26,7 @@ const checkIsUser = async (res, next, idToken, idParam) => {
         if (!userData) {
             handleError(res, "user not found", 400);
         }
-        if (userData._id === idParam) {
+        if (userData._id.toHexString() === idParam) {
             return next();
         } else {
             handleError(res, "not authoraize", 401);
