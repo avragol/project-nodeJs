@@ -1,0 +1,118 @@
+{
+    "users": [
+        {
+            "first": "normal",
+            "last": "user",
+            "phone": "050-0000000",
+            "email": "normal@user.com",
+            "password": "Aa123456!",
+            "address": {
+                "country": "israel",
+                "city": "anyTown",
+                "street": "any",
+                "houseNumber": "10"
+            },
+            "image": {
+                "url": "",
+                "alt": ""
+            },
+            "isBiz": false
+        },
+        {
+            "first": "biz",
+            "last": "user",
+            "phone": "050-0000000",
+            "email": "biz@user.com",
+            "password": "Aa123456!",
+            "address": {
+                "country": "israel",
+                "city": "anyTown",
+                "street": "any",
+                "houseNumber": "10"
+            },
+            "image": {
+                "url": "",
+                "alt": ""
+            },
+            "isBiz": true
+        },
+        {
+            "first": "admin",
+            "last": "user",
+            "phone": "050-0000000",
+            "email": "admin@user.com",
+            "password": "Aa123456!",
+            "address": {
+                "country": "israel",
+                "city": "anyTown",
+                "street": "any",
+                "houseNumber": "10"
+            },
+            "image": {
+                "url": "",
+                "alt": ""
+            },
+            "isBiz": true,
+            "isAdmin": true
+        }
+    ],
+    "cards": [
+        {
+            "title": "card1",
+            "subTitle": "this is the first card",
+            "description": "this is the first card in the database",
+            "phone": "050-0000000",
+            "email": "Card1@gmail.com",
+            "web": "https://www.card1.co.il",
+            "image": {
+                "url": "",
+                "alt": ""
+            },
+            "address": {
+                "country": "test",
+                "city": "test",
+                "street": "test",
+                "houseNumber": 3,
+                "zip": "0"
+            }
+        },
+        {
+            "title": "card2",
+            "subTitle": "this is the secound card",
+            "description": "this is the secound card in the database",
+            "phone": "050-0000000",
+            "email": "Card2@gmail.com",
+            "web": "https://www.card2.co.il",
+            "image": {
+                "url": "",
+                "alt": ""
+            },
+            "address": {
+                "country": "test",
+                "city": "test",
+                "street": "test",
+                "houseNumber": 3,
+                "zip": "0"
+            }
+        },
+        {
+            "title": "card3",
+            "subTitle": "this is the thrid card",
+            "description": "this is the thrid card in the database",
+            "phone": "050-0000000",
+            "email": "Card3@gmail.com",
+            "web": "https://www.card3.co.il",
+            "image": {
+                "url": "",
+                "alt": ""
+            },
+            "address": {
+                "country": "test",
+                "city": "test",
+                "street": "test",
+                "houseNumber": 3,
+                "zip": "0"
+            }
+        }
+    ]
+}
