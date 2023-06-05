@@ -6,6 +6,7 @@ const normalizeCard = require('../helpers/normalizeCardService');
 const cardValidationService = require('../../validation/cardsValidationService');
 const authMiddleware = require('../../middlewares/authMiddleware');
 const permissionsMiddleware = require('../../middlewares/permissionsMiddleware');
+const generateBizNumber = require('../helpers/generateBizNumberService');
 
 router.get('/', async (req, res) => {
     try {
@@ -47,6 +48,7 @@ router.post('/', authMiddleware, permissionsMiddleware(false, true, false),
             handleError(res, err.message, 400);
         }
     });
+
 router.put('/:id', authMiddleware, permissionsMiddleware(false, false, true),
     async (req, res) => {
         try {
@@ -86,6 +88,22 @@ router.patch('/:id', authMiddleware, async (req, res) => {
         handleError(res, err.message, 400);
     }
 });
+
+router.patch('/bizNum/:id', authMiddleware, permissionsMiddleware(true, false, false),
+    async (req, res) => {
+        try {
+            const cardId = req.params.id;
+            await cardValidationService.cardIdValidation(cardId);
+            const cardFromDb = await cardAccessDataService.updateCard(
+                cardId,
+                { bizNumber: await generateBizNumber() }
+            );
+            res.json({ msg: `the new biz number is ${cardFromDb.bizNumber}` });
+        } catch (err) {
+            console.log(err);
+            handleError(res, err.message, 400);
+        }
+    });
 
 router.delete('/:id', authMiddleware, permissionsMiddleware(true, false, true),
     async (req, res) => {
