@@ -5,6 +5,7 @@ const logger = require('./utils/loggers/loggerService');
 const cors = require('cors');
 const handleError = require('./utils/handleError');
 const router = require('./routes/router');
+const googleRouter = require('./utils/google');
 const app = express();
 
 /* SETTINGS */
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /* ROUTER */
 app.use("/api", router);
+app.use("/google", googleRouter);
 app.use((req, res) => {
   handleError(res, "page not found", 404);
 });
