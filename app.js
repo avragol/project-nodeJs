@@ -5,7 +5,7 @@ const logger = require('./utils/loggers/loggerService');
 const cors = require('cors');
 const handleError = require('./utils/handleError');
 const router = require('./routes/router');
-const googleRouter = require('./utils/google');
+const googleRouter = require('./utils/google/google');
 const app = express();
 
 /* SETTINGS */
