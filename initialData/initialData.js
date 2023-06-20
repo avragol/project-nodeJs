@@ -20,12 +20,14 @@ const initialData = async () => {
 
 const getSomeId = async () => {
     const usersFromDB = await getAllUsers();
+    let id = "6469e1f355ab41ab2413a852"
     for (let i = 0; i < usersFromDB.length; i++) {
         if (usersFromDB[i].isBiz === true) {
-            return usersFromDB[i]._id.toHexString();
+            id = usersFromDB[i]._id.toHexString();
+            break;
         }
-    }
-    return "6469e1f355ab41ab2413a852";
+    };
+    return id;
 };
 
 
