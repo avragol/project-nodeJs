@@ -6,27 +6,27 @@ const registerUser = userData => {
 };
 
 const getUserByEmail = (email) => {
-    return User.findOne({ email });
+    return User.findOne({ email }).select(["-createdAt", "-__v"]);
 };
 
 const getAllUsers = () => {
-    return User.find();
+    return User.find().select(["-password", "-createdAt", "-__v"]);
 }
 
 const getUserById = id => {
-    return User.findById(id);
+    return User.findById(id).select(["-password", "-createdAt", "-__v"]);
 }
 
 const updateUser = (id, userToUpdate) => {
-    return User.findByIdAndUpdate(id, userToUpdate, { new: true });
+    return User.findByIdAndUpdate(id, userToUpdate, { new: true }).select(["-password", "-createdAt", "-__v"]);
 }
 
 const updateBizUser = (id) => {
-    return User.findByIdAndUpdate(id, [{ "$set": { "isBiz": { "$not": "$isBiz" } } }], { new: true });
+    return User.findByIdAndUpdate(id, [{ "$set": { "isBiz": { "$not": "$isBiz" } } }], { new: true }).select(["-password", "-createdAt", "-__v"]);
 };
 
 const deleteUser = (id) => {
-    return User.findByIdAndDelete(id);
+    return User.findByIdAndDelete(id).select(["-password", "-createdAt", "-__v"]);
 }
 
 module.exports = {
