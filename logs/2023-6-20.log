@@ -1,1 +1,9 @@
 2023-06-20T07:22:35.471Z - (intermediate value).select is not a function
+2023-06-20T07:31:02.943Z - please provide token
+2023-06-20T07:31:28.423Z - not authoraize
+2023-06-20T07:32:55.453Z - not authoraize
+2023-06-20T07:38:39.410Z - Unexpected token } in JSON at position 381
+2023-06-20T07:38:51.711Z - api not found
+2023-06-20T07:39:05.109Z - E11000 duplicate key error collection: node_project.cards index: email_1 dup key: { email: "card1@gmail.com" }
+2023-06-20T07:41:50.381Z - Cast to ObjectId failed for value "my-cards" (type string) at path "_id" for model "cards"
+2023-06-20T07:42:45.974Z - not authoraize
