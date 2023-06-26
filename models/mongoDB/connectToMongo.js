@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const cofig = require("config");
 
 const connectToMongo = () => {
-    return mongoose.connect("mongodb://127.0.0.1:27017/node_project");
+    return mongoose.connect(config.get("dbConfig.url");
 };
 
 module.exports = connectToMongo;
