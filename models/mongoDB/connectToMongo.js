@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const cofig = require("config");
+const config = require("config");
 
 const connectToMongo = () => {
     return mongoose.connect(config.get("dbConfig.url"));
